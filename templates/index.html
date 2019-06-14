@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Workbook Search App</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}" >
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom_design.css') }}" >
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="#">Home</a>
+                    </li>
+                    <!-- <li role="presentation"><a href="showSignUp">Sign Up</a>
+                    </li> -->
+                </ul>
+            </nav>
+            <h3 class="text-muted">Workbook Search App</h3>
+        </div>
+
+        <div class="jumbotron">
+            <!-- <h3>Workbook search</h3>
+            <p class="lead"></p> -->
+            <!-- <p><a class="btn btn-lg btn-success" href="showSignUp" role="button">Sign up today</a>
+            </p> -->
+
+            <form class="form-search">
+
+            <label for="inputKeyword" class="sr-only">keyword</label>
+            <input type="name" name="inputKeyword" id="inputKeyword" class="form-control" placeholder="Client / TGO No." required autofocus>
+
+            <p class="lead"></p>
+
+            <button id="btnSearch" class="btn btn-lg btn-primary btn-block" type="button">Search</button>
+            </form>
+
+        </div>
+
+        <div class="row marketing">
+            <div class="col-lg-9">
+                <h4>Search Result</h4>
+
+                <p  id="desc">...</p>
+
+            </div>
+
+        </div>
+
+
+        <footer class="footer">
+            <!-- <p>&copy; Company 2015</p> -->
+        </footer>
+
+    </div>
+</body>
+
+<script type="text/javascript">
+
+$(function() {
+    $('#btnSearch').click(function() {
+
+        $.ajax({
+            url: '/search',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+
+                $('#desc').text(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
+
+</script>
+
+</html>
