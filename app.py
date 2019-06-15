@@ -1,6 +1,16 @@
+import os
+import pandas as pd
 from flask import Flask, render_template, request, json
-app = Flask(__name__)
 
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = 'data'
+XL_FILE = 'sample_data.xlsx'
+CARRIER_COLUMN_NAME = 'Carrier_Name'
+TG_COLUMN_NAME = 'TG_Name'
+
+
+app = Flask(__name__)
 
 @app.route("/")
 def main():
@@ -11,13 +21,40 @@ def main():
 
 
 @app.route('/search', methods=['POST'])
-def signUp():
+def search():
     # read the posted values from the UI
     keyword = request.form['inputKeyword']
-    # _email = request.form['inputEmail']
-    print("front-end keyword --->", keyword)
+    test_file_path = os.path.join(BASE_DIR, DATA_DIR, XL_FILE)
 
-    return json.dumps({'data': 'you have entered ' + keyword + ' !!'})
+    sheet_to_df_dict = read_xls(test_file_path)
+    InfoDF = pd.DataFrame()
+
+    for sht, df in sheet_to_df_dict.items():
+        car_df = df[df[CARRIER_COLUMN_NAME].str.contains(str(keyword), case=False)]
+        tg_df = df[df[TG_COLUMN_NAME].str.contains(str(keyword), case=False)]
+        tempDF = pd.concat([car_df, tg_df])
+
+        InfoDF = pd.concat([InfoDF,tempDF])
+
+    req_df = InfoDF.iloc[:,0:5]
+    # print(req_df.to_dict('records'))
+
+    return json.dumps(req_df.to_dict('records'))
+
+
+def read_xls(test_file):
+    # df_one = pd.read_excel(test_file, sheet_name=None)
+    # print(df_one.head())
+    xls = pd.ExcelFile(test_file)
+    all_sheet_names = xls.sheet_names
+
+    # to read all sheets to a map
+    sheet_to_df_dict = {}
+    for sheet_name in all_sheet_names:
+        sheet_to_df_dict[sheet_name] = xls.parse(sheet_name)
+
+    return sheet_to_df_dict
+
 
 
 if __name__ == "__main__":
