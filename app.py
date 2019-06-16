@@ -8,7 +8,7 @@ DATA_DIR = 'data'
 XL_FILE = 'sample_data.xlsx'
 CARRIER_COLUMN_NAME = 'Carrier_Name'
 TG_COLUMN_NAME = 'TG_Name'
-
+STATUS_COLUMN_NAME = 'Status'
 
 app = Flask(__name__)
 
@@ -30,19 +30,19 @@ def search():
     InfoDF = pd.DataFrame()
 
     for sht, df in sheet_to_df_dict.items():
-        car_df = df[df[CARRIER_COLUMN_NAME].str.contains(str(keyword), case=False)]
-        tg_df = df[df[TG_COLUMN_NAME].str.contains(str(keyword), case=False)]
+        car_df = df[(df[CARRIER_COLUMN_NAME].str.contains(str(keyword), case=False)) & (df[STATUS_COLUMN_NAME] == 'LIVE')]
+        tg_df = df[(df[TG_COLUMN_NAME].str.contains(str(keyword), case=False)) & (df[STATUS_COLUMN_NAME] == 'LIVE')]
         tempDF = pd.concat([car_df, tg_df])
 
         InfoDF = pd.concat([InfoDF,tempDF])
 
-    req_df = InfoDF.iloc[:,0:7]
+    req_df = InfoDF #.iloc[:,0:7]
     #req_df.reset_index(drop=True, inplace=True)
     tables_html=[req_df.to_html(classes="table table-striped table-bordered search-data ", index=False, header="true")]
 
     #return json.dumps(req_df.to_dict('records'))
 
-    if len(tables_html[0]) > 400 :
+    if len(tables_html[0]) > 450 :
         search_result = tables_html[0]
     else:
         search_result = '<h4> No result found.. </h4>'
