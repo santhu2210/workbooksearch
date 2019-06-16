@@ -36,10 +36,19 @@ def search():
 
         InfoDF = pd.concat([InfoDF,tempDF])
 
-    req_df = InfoDF.iloc[:,0:5]
-    # print(req_df.to_dict('records'))
+    req_df = InfoDF.iloc[:,0:7]
+    #req_df.reset_index(drop=True, inplace=True)
+    tables_html=[req_df.to_html(classes="table table-striped table-bordered search-data ", index=False, header="true")]
 
-    return json.dumps(req_df.to_dict('records'))
+    #return json.dumps(req_df.to_dict('records'))
+
+    if len(tables_html[0]) > 400 :
+        search_result = tables_html[0]
+    else:
+        search_result = '<h4> No result found.. </h4>'
+
+    return (search_result)
+
 
 
 def read_xls(test_file):
@@ -58,4 +67,5 @@ def read_xls(test_file):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host= '0.0.0.0', port=5555)
+

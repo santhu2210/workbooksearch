@@ -37,3 +37,29 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.jumbotron {
+  background-image: url("../images/bg_img.png");
+  background-size: cover;
+}
+
+table.dataframe, .dataframe th, .dataframe td {
+  border: none;
+  border-bottom: 1px solid #C8C8C8;
+  border-collapse: collapse;
+  text-align:left;
+  padding: 10px;
+  margin-bottom: 40px;
+  font-size: 1.0em;
+}
+
+.search-data th {
+    background-color:#ff0000; /* #add8e6;   #77dd77; */ 
+    color: white;
+}
+
+
+tr:nth-child(odd)   td{ background-color: #ffe6e6; }
+tr:nth-child(even)  td{ background-color: #fff; }
+
+tr:hover            td{ background-color: #ffff99;}
