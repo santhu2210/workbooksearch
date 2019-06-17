@@ -34,7 +34,7 @@
         <div class="jumbotron">
             <!-- <h3>Workbook search</h3>
             <p class="lead"></p> -->
-    
+
             <form class="form-search">
 
             <label for="inputKeyword" class="sr-only">keyword</label>
@@ -72,19 +72,26 @@
 $(function() {
     $('#btnSearch').click(function() {
 
-        $.ajax({
-            url: '/search',
-            data: $('form').serialize(),
-            type: 'POST',
-            success: function(response) {
-                console.log(response);
-                $('#result').html(response);
+        var inputKeyword = $('#inputKeyword').val();
 
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
+        if (inputKeyword != "")  {
+            $.ajax({
+                url: '/search',
+                data: $('form').serialize(),
+                type: 'POST',
+                success: function(response) {
+                    console.log(response);
+                    $('#result').html(response);
+
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+        else {
+            alert("Please fill Carrier/ TG name with atleast 2 character or more..!!");
+        }
     });
 });
 
