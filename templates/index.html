@@ -55,6 +55,7 @@
             <div class="col-lg-9">
                 <h3>Search Result</h3>
                 <p class="lead"></p>
+                
                 <div id='result'>
 
                 </div>
@@ -65,8 +66,8 @@
 
 
         <footer class="footer">
-            <!-- <p>&copy; Company 2015</p> -->
-        </footer>
+<!--             <p>&copy; Airtel 2019 reserved..</p>
+ -->        </footer>
 
     </div>
 </body>
@@ -84,7 +85,7 @@ $(function() {
                 data: $('form').serialize(),
                 type: 'POST',
                 success: function(response) {
-                    console.log(response);
+                    //console.log(response);
                     $('#result').html(response);
 
                 },
@@ -94,7 +95,7 @@ $(function() {
             });
         }
         else {
-            alert("Please fill Carrier/ TG name with atleast 2 character or more..!!");
+            alert("Please fill Carrier/ TG name with atleast 3 character or more..!!");
         }
     });
 });

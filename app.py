@@ -13,7 +13,7 @@ pattern = re.compile(r"\\n|\\r|\\t|\\r|\\f|\\b")
 ##  Global variable declariation
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = 'data'
-XL_FILE = 'sample_data.xlsx'
+XL_FILE = 'sbc_data.xlsx'
 CARRIER_COLUMN_NAME = 'Carrier_Name'
 TG_COLUMN_NAME = 'TG_Name'
 STATUS_COLUMN_NAME = 'Status'
@@ -25,13 +25,13 @@ app = Flask(__name__)
 ## main or index page routing function
 @app.route("/")
 def main():
-    keyword = request.args.get('inputKeyword')
-    if keyword:
-        print("query param keyword: -->", keyword)
+    # keyword = request.args.get('inputKeyword')
+    # if keyword:
+    #     print("query param keyword: -->", keyword)
     return render_template('index.html')
 
 
-## Serach call rounting function
+## Search call rounting function
 @app.route('/search', methods=['POST'])
 def search():
     # read the posted values from the UI
@@ -48,7 +48,7 @@ def search():
 
         InfoDF = pd.concat([InfoDF,tempDF])
 
-    req_df = InfoDF #.iloc[:,0:7]
+    req_df = InfoDF.iloc[:,0:9]
     #req_df.reset_index(drop=True, inplace=True)
     tables_html=[req_df.to_html(classes="table table-striped table-bordered search-data ", index=False, header="true")]
 
@@ -71,7 +71,7 @@ def remove_escape_characters(string):
     cleaned_string = pattern.sub(", ", str(processed_string))
     return cleaned_string
 
-## helping functions to remove excel file read
+## helping functions to read excel file read
 def read_xls(test_file):
     # df_one = pd.read_excel(test_file, sheet_name=None)
     # print(df_one.head())
