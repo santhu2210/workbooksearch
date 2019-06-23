@@ -1,2 +1,2 @@
-Flask
-pandas
+Flask==0.12.2
+pandas==0.20.1
